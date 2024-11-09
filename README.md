@@ -1,16 +1,48 @@
 # listo
 
-A new Flutter project.
+# Listo - Application de gestion de tâches
 
-## Getting Started
+Listo est une application de gestion de tâches conçue pour vous aider à organiser et suivre vos activités de manière efficace. Cette application est développée avec **Flutter**, un framework de développement mobile multiplateforme, et utilise **Gradle** pour la gestion de la construction et des dépendances.
 
-This project is a starting point for a Flutter application.
+## Spécifications de l'environnement de développement
 
-A few resources to get you started if this is your first Flutter project:
+Avant de commencer à travailler sur le projet Listo, il est important de s'assurer que vous avez installé les versions recommandées de **Flutter** et **Gradle**. Ces versions sont optimisées pour garantir que l'application fonctionne correctement pendant le développement et la construction.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 1. **Flutter Version Recommandée**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+La version recommandée de **Flutter** pour ce projet est la version **3.24.4**. Il est important de maintenir cette version pour éviter les incompatibilités et les problèmes liés aux nouvelles mises à jour.
+
+#### Comment vérifier votre version de Flutter
+Pour vérifier la version de Flutter installée sur votre système, ouvrez un terminal ou une invite de commandes et exécutez la commande suivante :
+
+
+flutter --version
+
+Telecharger flutter a https://docs.flutter.dev/get-started/install/windows/mobile
+
+### 2. **Gradle Version Recommandée**
+
+La version recommandée de **Flutter** pour ce projet est la version **8.10.2**. Il est important de maintenir cette version pour éviter les incompatibilités et les problèmes liés aux nouvelles mises à jour.
+
+#### Comment vérifier votre version de Gradle
+Pour vérifier la version de Flutter installée sur votre système, ouvrez un terminal ou une invite de commandes et exécutez la commande suivante :
+
+gradle -v
+
+Telecharger Gradle a https://services.gradle.org/distributions
+
+
+Une fois les outils installés et configurés, vous pouvez commencer à travailler sur le projet Listo. Pour le lancer, ouvrez un terminal, naviguez jusqu'au répertoire du projet, et exécutez les commandes suivantes :
+
+initialiser le repos : 
+git init
+
+ Cloner le repos : 
+git clone https://github.com/DeaveSEYE/listo.git 
+
+flutter pub get
+flutter run
+
+
+
+
