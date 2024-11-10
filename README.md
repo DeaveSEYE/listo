@@ -43,6 +43,38 @@ git clone https://github.com/DeaveSEYE/listo.git
 flutter pub get
 flutter run
 
+# STRUCTURE DU PROJET 
+
+lib/
+├── core/
+│   ├── api/              # Gestion des API, services, http
+│   ├── utils/            # Outils et helpers (formatteur, etc.)
+│   ├── constants/        # Variables et constantes globales
+│   └── theme/            # Gestion des thèmes
+│       └── theme.dart    # Définition des thèmes de l'application
+│
+├── features/
+│   ├── auth/             # Authentification
+│   │   ├── data/         # Gestion des données de l'authentification
+│   │   ├── function/     # Logique métier de l'authentification
+│   │   └── ui/           # Interface utilisateur d'authentification
+│   │
+│   ├── tasks/            # Fonctionnalité de gestion des tâches
+│   │   ├── data/         # Gestion des données des tâches
+│   │   ├── function/     # Logique métier des tâches
+│   │   └── ui/           # Interface utilisateur des tâches
+│
+├── main.dart             # Point d'entrée de l'application
+└── routes.dart           # Gestion des routes de l'application
+
+
+La section features est constituée de dossiers qui représentent chacun un processus spécifique de développement, chaque dossier correspondant à une fonctionnalité de l'application. Voici un aperçu des principaux dossiers et leur rôle :
+
+features/authentication : Ce dossier est dédié au processus d'authentification (login). Il contient :
+
+L'interface de connexion : Les écrans et composants d'interface pour permettre à l'utilisateur de se connecter.
+La logique de connexion : La logique métier et les contrôles de sécurité qui vérifient et valident les informations d'identification de l'utilisateur.
+Les éléments associés au login : Par exemple, la gestion des sessions et la récupération de mot de passe.
 
 
 
