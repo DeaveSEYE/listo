@@ -34,18 +34,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  // Appliquer un filtre spécifique
-  void _applyFilter(String filter) {
-    setState(() {
-      if (filter == "date") {
-        // Trier les tâches par date
-        filteredTasks.sort((a, b) => a.date.compareTo(b.date));
-      } else if (filter == "priority") {
-        // Trier les tâches par couleur de priorité
-        filteredTasks.sort((a, b) => a.flagColor.value.compareTo(b.flagColor.value));
-      }
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -89,35 +78,6 @@ class _HomeState extends State<Home> {
               const Text(
                 "Liste des tâches",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.filter_list), // Icône du bouton de filtre
-                onSelected: (value) {
-                  // Gérer la sélection de filtre
-                  _applyFilter(value);
-                },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: "date",
-                    child: Row(
-                      children: [
-                        Icon(Icons.calendar_today, size: 18),
-                        SizedBox(width: 8),
-                        Text("Date"),
-                      ],
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    value: "priority",
-                    child: Row(
-                      children: [
-                        Icon(Icons.flag, size: 18),
-                        SizedBox(width: 8),
-                        Text("Priorité"),
-                      ],
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
