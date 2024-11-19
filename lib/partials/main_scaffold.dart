@@ -36,6 +36,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: Colors.green,
       flagColor: Colors.green,
       isChecked: true,
+      priority:  Priority.basse
     ),
         Task(
            id: 3,
@@ -45,6 +46,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: Colors.green,
       flagColor: Colors.green,
       isChecked: false,
+      priority:  Priority.basse
     ),
     Task(
        id: 4,
@@ -54,6 +56,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: Colors.orange,
       flagColor: Colors.orange,
       isChecked: false,
+      priority:  Priority.moyenne
     ),
         Task(
        id: 5,
@@ -63,6 +66,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: const Color.fromARGB(255, 255, 0, 0),
       flagColor: const Color.fromARGB(255, 255, 0, 0),
       isChecked: true,
+      priority:  Priority.eleve
     ),
         Task(
        id: 6,
@@ -72,6 +76,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: const Color.fromARGB(255, 234, 255, 0),
       flagColor: const Color.fromARGB(255, 234, 255, 0),
       isChecked: true,
+      priority:  Priority.eleve
     ),
         Task(
        id: 7,
@@ -81,6 +86,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: const Color.fromARGB(54, 111, 44, 227),
       flagColor:  const Color.fromARGB(54, 111, 44, 227),
       isChecked: false,
+      priority:  Priority.moyenne
     ),
         Task(
        id: 8,
@@ -90,6 +96,7 @@ class _MainScaffoldState extends State<MainScaffold> {
       categorieColor: const Color.fromARGB(255, 0, 255, 242),
       flagColor: const Color.fromARGB(255, 0, 255, 242),
       isChecked: true,
+      priority:  Priority.moyenne
     ),
   ];
 
@@ -103,6 +110,8 @@ class _MainScaffoldState extends State<MainScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
      backgroundColor: AppColors.background,
+     resizeToAvoidBottomInset:
+          false, // Désactive le redimensionnement automatique lié au clavier
       appBar: CustomAppBar(),
       body: [
         // Liste des pages affichées en fonction de l'index sélectionné

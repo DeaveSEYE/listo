@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+enum Priority { basse, moyenne, eleve }
 // Task model
 class Task {
   final int id;
@@ -9,7 +10,8 @@ class Task {
   final String categorie;
   final Color categorieColor;
   final Color flagColor;
-   bool isChecked;
+  bool isChecked;
+  Priority priority;
 
   Task({
     required this.id,
@@ -18,6 +20,7 @@ class Task {
     required this.categorie,
     required this.categorieColor,
     required this.flagColor,
-      this.isChecked = false, // Valeur par défaut
+    this.isChecked = false, // Valeur par défaut
+    this.priority = Priority.basse, // Valeur par défaut pour la priorité
   });
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:listo/core/theme/ListCategories.dart';
 import 'package:listo/core/utils/task.dart';
+import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/BuildTaskItem.dart';
 
 class Tasklist extends StatefulWidget {
@@ -37,7 +38,12 @@ class _TasklistState extends State<Tasklist> {
       widget.tasks[index].isChecked = !widget.tasks[index].isChecked; // Toggles isChecked
     });
   }
-
+  // Appliquer un filtre (par date ou priorité)
+  void _applyFilter(String filter) {
+    setState(() {
+      TaskFilter.applyFilter(filteredTasks, filter); // Utiliser la classe TaskSorter
+    });
+  }
   @override
 
   Widget build(BuildContext context) {
@@ -53,6 +59,35 @@ class _TasklistState extends State<Tasklist> {
               const Text(
                 "Liste des tâches",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.filter_list), // Icône du bouton de filtre
+                onSelected: (value) {
+                  // Gérer la sélection de filtre
+                  _applyFilter(value);
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: "date",
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 18),
+                        SizedBox(width: 8),
+                        Text("Date"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "priority",
+                    child: Row(
+                      children: [
+                        Icon(Icons.flag, size: 18),
+                        SizedBox(width: 8),
+                        Text("Priorité"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

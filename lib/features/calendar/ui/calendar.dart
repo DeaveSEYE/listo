@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/Listview.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart'; // Pour parser les dates personnalisées
@@ -45,6 +46,12 @@ class _CalendarPageState extends State<CalendarPage> {
     }).toList();
   }
 
+  // Appliquer un filtre (par date ou priorité)
+  void _applyFilter(String filter) {
+    setState(() {
+      TaskFilter.applyFilter(filteredTasks, filter); // Utiliser la classe TaskSorter
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final taskDates = _taskDates(); // Liste des dates avec des tâches
@@ -114,6 +121,35 @@ class _CalendarPageState extends State<CalendarPage> {
               const Text(
                 "Liste des tâches",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.filter_list), // Icône du bouton de filtre
+                onSelected: (value) {
+                  // Gérer la sélection de filtre
+                  _applyFilter(value);
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: "date",
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 18),
+                        SizedBox(width: 8),
+                        Text("Date"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "priority",
+                    child: Row(
+                      children: [
+                        Icon(Icons.flag, size: 18),
+                        SizedBox(width: 8),
+                        Text("Priorité"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

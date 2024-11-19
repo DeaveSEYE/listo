@@ -39,8 +39,8 @@ class _ListCategoriesState extends State<ListCategories> {
               padding: const EdgeInsets.symmetric(horizontal: 4.0), // Espacement entre les Chips
               child: Chip(
                 label: Text(category), // Affiche le nom de la catégorie
-                backgroundColor: color.withOpacity(0.2), // Couleur de fond avec transparence
-                labelStyle: TextStyle(color: color), // Texte de la couleur de la catégorie
+                backgroundColor: color, // Couleur de fond 
+                labelStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Texte de la couleur de la catégorie
                 padding: const EdgeInsets.all(5), // Padding interne du Chip
               ),
             );

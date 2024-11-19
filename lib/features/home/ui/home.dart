@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:listo/core/theme/ListCategories.dart';
 import 'package:listo/core/utils/task.dart';
+import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/Listview.dart';
 import 'package:listo/partials/searchbar.dart';
-
 class Home extends StatefulWidget {
   final List<Task> tasks; // Liste des tâches passée en paramètre
 
@@ -34,29 +34,34 @@ class _HomeState extends State<Home> {
     });
   }
 
- 
+  // Appliquer un filtre (par date ou priorité)
+  void _applyFilter(String filter) {
+    setState(() {
+      TaskFilter.applyFilter(filteredTasks, filter); // Utiliser la classe TaskSorter
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Searchbar(),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           // ListCategories utilise toujours widget.tasks
           ListCategories(tasks: widget.tasks),
           const Text(
             "Aperçu des tâches",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             children: [
               // Carte Terminés
               _buildStatusCard(
-                "Terminés",
+                "Taches Terminés",
                 "${widget.tasks.where((task) => task.isChecked).length}",
                 isCompletedSelected ? Colors.blue[200]! : Colors.white,
                 true,
@@ -64,14 +69,14 @@ class _HomeState extends State<Home> {
               const SizedBox(width: 10),
               // Carte En attente
               _buildStatusCard(
-                "En attente",
+                "Tache En attente",
                 "${widget.tasks.where((task) => !task.isChecked).length}",
                 isCompletedSelected ? Colors.white : Colors.blue[200]!,
                 false,
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -79,9 +84,38 @@ class _HomeState extends State<Home> {
                 "Liste des tâches",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.filter_list), // Icône du bouton de filtre
+                onSelected: (value) {
+                  // Gérer la sélection de filtre
+                  _applyFilter(value);
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: "date",
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_today, size: 18),
+                        SizedBox(width: 8),
+                        Text("Date"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "priority",
+                    child: Row(
+                      children: [
+                        Icon(Icons.flag, size: 18),
+                        SizedBox(width: 8),
+                        Text("Priorité"),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 05),
           // Listviews utilise filteredTasks
           Listviews(filteredTasks),
         ],
@@ -90,34 +124,41 @@ class _HomeState extends State<Home> {
   }
 
   // Méthode pour construire les cartes de statut
-  Widget _buildStatusCard(
-      String title, String count, Color color, bool isCompleted) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          // Filtrer les tâches selon le statut
-          _filterTasks(isCompleted);
-        },
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            children: [
-              Text(
-                count,
-                style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+Widget _buildStatusCard(
+    String title, String count, Color color, bool isCompleted) {
+  return Expanded(
+    child: GestureDetector(
+      onTap: () {
+        // Filtrer les tâches selon le statut
+        _filterTasks(isCompleted);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10), // Réduire le padding
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(6), // Réduire le rayon des coins
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // S'assurer que la carte reste compacte
+          children: [
+            Text(
+              count,
+              style: const TextStyle(
+                fontSize: 30, // Taille de police réduite
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 4), // Espacement réduit entre les textes
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16, // Taille de police réduite pour le titre
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
