@@ -85,8 +85,14 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
               // Optionally, update the task's state here if necessary
             },
           ),
-          title: Text(widget.task.title),
-          subtitle: Text(widget.task.date),
+          title: Text(widget.task.title,
+            overflow: TextOverflow.ellipsis, // Ajoute "..."
+            maxLines: 1,// Limite à une ligne
+          ),
+          subtitle: Text(widget.task.date,
+            overflow: TextOverflow.ellipsis, // Ajoute "..."
+            maxLines: 1,// Limite à une ligne
+          ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
