@@ -1,11 +1,13 @@
 // Import pour détecter la plateforme
+//import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart'; //permet dafficher et gerer les boutton google et apple
 import 'package:listo/core/theme/colors.dart'; // class des couleur utiliser dans lapplication
 import 'package:listo/core/theme/widgets.dart'; //class des widgets reutilisable
 import 'package:listo/core/utils/responsive.dart'; //class pour rebdre les pages responsive
 import 'package:listo/features/register/ui/register.dart'; //page d'inscription
-import 'package:listo/routes.dart'; //page d'acceuil
+import 'package:listo/partials/main_scaffold.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -107,12 +109,18 @@ class _LoginState extends State<Login> {
               GestureDetector(
                 onTap: () {
                   // Naviguer vers la page Home lorsque le bouton est tapé
-                  Navigator.pushNamed(context, Routes.homePage);
+                  // Navigator.pushNamed(context, Routes.homePage);
+                  MaterialPageRoute(
+                    builder: (context) => const MainScaffold(),
+                  );
                 },
                 child: CustomElevatedButton(
                   text: "Se connecter",
                   onPressed: () {
                     // Navigator.pushNamed(context, Routes.homePage);
+                    MaterialPageRoute(
+                      builder: (context) => const MainScaffold(),
+                    );
                     // Cela peut rester vide si vous ne voulez pas utiliser onPressed ici
                     // Le GestureDetector s'occupe de la navigation
                   },
@@ -129,23 +137,23 @@ class _LoginState extends State<Login> {
                 SizedBox(height: responsive.hp(3)),
                 const Text('Ou'),
                 SizedBox(height: responsive.hp(2)),
-              //  if (Platform.isAndroid)
-                  SignInButton(
-                    Buttons.Google,
-                    text: "Connexion avec Google",
-                    onPressed: () {
-                      // Action pour la connexion avec Google
-                    },
-                  ),
+                // if (Platform.isAndroid)
+                SignInButton(
+                  Buttons.Google,
+                  text: "Connexion avec Google",
+                  onPressed: () {
+                    // Action pour la connexion avec Google
+                  },
+                ),
                 SizedBox(height: responsive.hp(3)),
-                //if (Platform.isIOS)
-                  SignInButton(
-                    Buttons.Apple,
-                    text: "Connexion avec Apple",
-                    onPressed: () {
-                      // Action pour la connexion avec Apple
-                    },
-                  ),
+                // if (Platform.isIOS)
+                SignInButton(
+                  Buttons.Apple,
+                  text: "Connexion avec Apple",
+                  onPressed: () {
+                    // Action pour la connexion avec Apple
+                  },
+                ),
                 SizedBox(height: responsive.hp(3)),
               ],
               Row(

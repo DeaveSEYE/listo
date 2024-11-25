@@ -1,11 +1,14 @@
 // permet de connaitre le systeme d'exploitation de l'appareil.
 
+//import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:listo/core/theme/colors.dart'; // class des couleur utiliser dans lapplication
 import 'package:listo/core/theme/widgets.dart'; //class des widgets reutilisable
 import 'package:listo/core/utils/responsive.dart'; //class pour rebdre les pages responsive
-import 'package:listo/features/login/ui/login.dart'; //page de connexion
+
+import 'package:listo/features/login/ui/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -106,11 +109,19 @@ class _RegisterState extends State<Register> {
             CustomElevatedButton(
               text: "S'inscrire",
               onPressed: () {
-               /// Navigator.push(
-                  //context,
-                  //MaterialPageRoute(
-                    //builder: (context) => const Home(),
-                  //),
+                // Navigator.pushNamed(context, Routes.homePage);
+                //MaterialPageRoute(
+                //builder: (context) => Home(tasks: tasks),
+                //);
+                //MaterialPageRoute(
+                //builder: (context) => const MainScaffold(),
+                //);
+
+                /// Navigator.push(
+                //context,
+                //MaterialPageRoute(
+                //builder: (context) => const Home(),
+                //),
                 //);
               },
               color: Colors.blue, // Couleur du bouton
@@ -120,22 +131,22 @@ class _RegisterState extends State<Register> {
                   vertical: responsive.hp(2),
                   horizontal: responsive.wp(10)), // Padding personnalisé
             ),
-                SizedBox(height: responsive.hp(3)),
-                const Text('Ou'),
-                SizedBox(height: responsive.hp(2)),
-            //if (Platform.isAndroid)
-              SignInButton(
-                Buttons.Google,
-                text: "S'inscrire avec Google",
-                onPressed: () {},
-              ),
             SizedBox(height: responsive.hp(3)),
-           // if (Platform.isIOS)
-              SignInButton(
-                Buttons.Apple,
-                text: "S'inscrire avec Apple",
-                onPressed: () {},
-              ),
+            const Text('Ou'),
+            SizedBox(height: responsive.hp(2)),
+            // if (Platform.isAndroid)
+            SignInButton(
+              Buttons.Google,
+              text: "S'inscrire avec Google",
+              onPressed: () {},
+            ),
+            SizedBox(height: responsive.hp(3)),
+            // if (Platform.isIOS)
+            SignInButton(
+              Buttons.Apple,
+              text: "S'inscrire avec Apple",
+              onPressed: () {},
+            ),
             SizedBox(height: responsive.hp(3)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

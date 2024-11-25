@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:listo/features/login/ui/login.dart';
 import 'package:listo/partials/main_scaffold.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -8,19 +9,21 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Profil',
           style: TextStyle(color: Colors.grey),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.blue),
+          icon: const Icon(Icons.arrow_back, color: Colors.blue),
           onPressed: () {
-               Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScaffold()), // Remplacez ProfileScreen par votre widget de profil
-      );// Retour à la page précédente
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const MainScaffold()), // Remplacez ProfileScreen par votre widget de profil
+            ); // Retour à la page précédente
           },
         ),
       ),
@@ -31,38 +34,43 @@ class ProfileScreen extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.grey[300],
-              child: Icon(Icons.person, size: 50, color: Colors.grey),
+              child: const Icon(Icons.person, size: 50, color: Colors.grey),
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Listo',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               'listo@forcen.sn',
               style: TextStyle(fontSize: 16.0, color: Colors.grey),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Action de déconnexion
+                // MaterialPageRoute(
+                // builder: (context) => const Login(),
+                //);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 40.0, vertical: 10.0),
               ),
-              child: Text('Déconnexion', style: TextStyle(color: Colors.white)),
+              child: const Text('Déconnexion',
+                  style: TextStyle(color: Colors.white)),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             // Boutons réduits avec texte en blanc
             _buildOptionButton(
                 context, Icons.sync, 'Synchronisation du compte'),
             _buildOptionButton(
                 context, Icons.notifications, 'Notification de rappel'),
             _buildOptionButton(context, Icons.share, 'Partager l\'application'),
-            Spacer(),
-            Text('version 1.0.0', style: TextStyle(color: Colors.grey)),
-            SizedBox(height: 10.0),
+            const Spacer(),
+            const Text('version 1.0.0', style: TextStyle(color: Colors.grey)),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
@@ -78,11 +86,11 @@ class ProfileScreen extends StatelessWidget {
         },
         icon: Icon(icon, color: Colors.white),
         label: Text(label,
-          style: TextStyle(color: Colors.white)), // Libellé en blanc
+            style: const TextStyle(color: Colors.white)), // Libellé en blanc
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
-          minimumSize: Size(200, 40), // Réduction de la taille du bouton
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          minimumSize: const Size(200, 40), // Réduction de la taille du bouton
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         ),

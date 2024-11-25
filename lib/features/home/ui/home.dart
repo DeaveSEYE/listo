@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Searchbar(),
+          const Searchbar(),
           const SizedBox(height: 5),
           // ListCategories utilise toujours widget.tasks
           ListCategories(tasks: widget.tasks),

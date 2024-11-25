@@ -10,7 +10,7 @@ class Searchbar extends StatefulWidget {
 class _SearchbarState extends State<Searchbar> {
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
       child: TextField(
               decoration: InputDecoration(
                 hintText: "Rechercher...",

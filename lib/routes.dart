@@ -16,19 +16,19 @@ class Routes {
       case registerPage:
         return MaterialPageRoute(builder: (_) => const Register());
       case homePage:
-        return MaterialPageRoute(builder: (_) => const MainScaffold()); 
+        return MaterialPageRoute(builder: (_) => const MainScaffold());
       default:
-       return MaterialPageRoute(builder: (_) => const MainScaffold());
-        //return MaterialPageRoute(
-         // builder: (_) => const Scaffold(
-           // body: Center(
-             // child: Text(
-               // 'Bienvenue dans LISTO',
-               // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              //),
-           // ),
-         // ),
-        //);
+        return MaterialPageRoute(builder: (_) => const MainScaffold());
+      //return MaterialPageRoute(
+      // builder: (_) => const Scaffold(
+      // body: Center(
+      // child: Text(
+      // 'Bienvenue dans LISTO',
+      // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      //),
+      // ),
+      // ),
+      //);
     }
   }
 }

@@ -91,16 +91,16 @@ class _CalendarPageState extends State<CalendarPage> {
                 formatButtonVisible: false,
                 titleCentered: true,
               ),
-              calendarStyle: CalendarStyle(
-                todayDecoration: const BoxDecoration(
+              calendarStyle: const CalendarStyle(
+                todayDecoration: BoxDecoration(
                   color: Colors.blue,
                   shape: BoxShape.circle,
                 ),
-                selectedDecoration: const BoxDecoration(
+                selectedDecoration: BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                markerDecoration: const BoxDecoration(
+                markerDecoration: BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
