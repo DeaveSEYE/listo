@@ -5,10 +5,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart'; // Pour parser les dates personnalisées
 import 'package:listo/core/utils/task.dart';
 
-
 class CalendarPage extends StatefulWidget {
   final List<Task> tasks; // Liste des tâches passée en paramètre
-  
+
   const CalendarPage({super.key, required this.tasks});
 
   @override
@@ -16,14 +15,16 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-      List<Task> filteredTasks = []; // Liste des tâches filtrées
-      @override
-      void initState() {
+  List<Task> filteredTasks = []; // Liste des tâches filtrées
+  @override
+  void initState() {
     super.initState();
     // Initialiser avec toutes les tâches
     filteredTasks = widget.tasks;
   }
-  final DateFormat _dateFormat = DateFormat('dd-MM-yyyy'); // Changez selon le format de vos tâches
+
+  final DateFormat _dateFormat =
+      DateFormat('dd-MM-yyyy'); // Changez selon le format de vos tâches
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -31,15 +32,18 @@ class _CalendarPageState extends State<CalendarPage> {
   // Récupère les dates ayant des tâches
   Set<DateTime> _taskDates() {
     return widget.tasks.map((task) {
-      final taskDate = _dateFormat.parse(task.date.split(" ")[0]); // Parse selon le format
-      return DateTime(taskDate.year, taskDate.month, taskDate.day); // Normalise la date
+      final taskDate = _dateFormat
+          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
+      return DateTime(
+          taskDate.year, taskDate.month, taskDate.day); // Normalise la date
     }).toSet();
   }
 
   // Récupère les tâches pour une journée donnée
   List<Task> _getTasksForDay(DateTime day) {
     return widget.tasks.where((task) {
-      final taskDate = _dateFormat.parse(task.date.split(" ")[0]); // Parse selon le format
+      final taskDate = _dateFormat
+          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
       return taskDate.year == day.year &&
           taskDate.month == day.month &&
           taskDate.day == day.day;
@@ -49,9 +53,11 @@ class _CalendarPageState extends State<CalendarPage> {
   // Appliquer un filtre (par date ou priorité)
   void _applyFilter(String filter) {
     setState(() {
-      TaskFilter.applyFilter(filteredTasks, filter); // Utiliser la classe TaskSorter
+      TaskFilter.applyFilter(
+          filteredTasks, filter); // Utiliser la classe TaskSorter
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final taskDates = _taskDates(); // Liste des dates avec des tâches
@@ -108,14 +114,17 @@ class _CalendarPageState extends State<CalendarPage> {
               ),
               eventLoader: (day) {
                 // Indique s'il y a des événements pour une journée donnée
-                return taskDates.contains(DateTime(day.year, day.month, day.day))
-                    ? [true] // Utilisation d'un tableau pour signaler un marqueur
+                return taskDates
+                        .contains(DateTime(day.year, day.month, day.day))
+                    ? [
+                        true
+                      ] // Utilisation d'un tableau pour signaler un marqueur
                     : [];
               },
             ),
           ),
           const SizedBox(height: 20),
-                              Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
@@ -123,7 +132,8 @@ class _CalendarPageState extends State<CalendarPage> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               PopupMenuButton<String>(
-                icon: const Icon(Icons.filter_list), // Icône du bouton de filtre
+                icon:
+                    const Icon(Icons.filter_list), // Icône du bouton de filtre
                 onSelected: (value) {
                   // Gérer la sélection de filtre
                   _applyFilter(value);
@@ -163,7 +173,8 @@ class _CalendarPageState extends State<CalendarPage> {
           // Affichage des tâches
           _selectedDay != null
               ? _getTasksForDay(_selectedDay!).isNotEmpty
-                  ? Listviews(_getTasksForDay(_selectedDay!)) // Utiliser Listviews pour afficher les tâches
+                  ? Listviews(_getTasksForDay(
+                      _selectedDay!)) // Utiliser Listviews pour afficher les tâches
                   : const Center(child: Text("Aucune tâche pour ce jour"))
               : const Center(child: Text("Veuillez sélectionner une date")),
         ],
