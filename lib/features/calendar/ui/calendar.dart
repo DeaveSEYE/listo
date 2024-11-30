@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/Listview.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart'; // Pour parser les dates personnalisées
+
 import 'package:listo/core/utils/task.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -23,8 +23,6 @@ class _CalendarPageState extends State<CalendarPage> {
     filteredTasks = widget.tasks;
   }
 
-  final DateFormat _dateFormat =
-      DateFormat('dd-MM-yyyy'); // Changez selon le format de vos tâches
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -32,18 +30,18 @@ class _CalendarPageState extends State<CalendarPage> {
   // Récupère les dates ayant des tâches
   Set<DateTime> _taskDates() {
     return widget.tasks.map((task) {
-      final taskDate = _dateFormat
-          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
-      return DateTime(
-          taskDate.year, taskDate.month, taskDate.day); // Normalise la date
+      final taskDate =
+          DateTime.parse(task.dueDate); // Utiliser DateTime.parse pour ISO 8601
+      return DateTime(taskDate.year, taskDate.month,
+          taskDate.day); // Normaliser la date sans l'heure
     }).toSet();
   }
 
   // Récupère les tâches pour une journée donnée
   List<Task> _getTasksForDay(DateTime day) {
     return widget.tasks.where((task) {
-      final taskDate = _dateFormat
-          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
+      final taskDate =
+          DateTime.parse(task.dueDate); // Utiliser DateTime.parse pour ISO 8601
       return taskDate.year == day.year &&
           taskDate.month == day.month &&
           taskDate.day == day.day;

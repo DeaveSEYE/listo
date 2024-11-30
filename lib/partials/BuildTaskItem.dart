@@ -76,12 +76,12 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
           ),
           title: Text(
             widget.task.title,
-            overflow: TextOverflow.ellipsis, // Ajoute "...",
+            overflow: TextOverflow.ellipsis, // Ajoute "..."
             maxLines: 1, // Limite à une ligne
           ),
           subtitle: Text(
             widget.task.dueDate,
-            overflow: TextOverflow.ellipsis, // Ajoute "...",
+            overflow: TextOverflow.ellipsis, // Ajoute "..."
             maxLines: 1, // Limite à une ligne
           ),
           trailing: Row(
@@ -126,61 +126,60 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
         return Colors.green; // Couleur par défaut
     }
   }
+}
 
-  void showTaskDetails(BuildContext context, task) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return FractionallySizedBox(
-          alignment: Alignment.bottomCenter,
-          heightFactor:
-              0.5, // Réduit la hauteur du modal à la moitié de l'écran
-          child: Padding(
-            padding: EdgeInsets.all(16),
-            child: Container(
-              width: MediaQuery.of(context)
-                  .size
-                  .width, // Prend toute la largeur de l'écran
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    task.title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18), // Titre en gras
-                  ),
-                  SizedBox(height: 8),
-                  Text(task.description), // Affichage de la description
-                  SizedBox(height: 16),
-                  Spacer(), // Pousse tout le contenu vers le haut pour mettre le bouton en bas
-                  Align(
-                    alignment:
-                        Alignment.center, // Centrer le bouton horizontalement
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Ajoutez la logique pour la modification de la tâche ici
-                        print('Modifier la tâche');
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue, // Texte en blanc
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 12), // Un peu d'espace autour du texte
-                      ),
-                      child: Text('Modifier'),
+void showTaskDetails(BuildContext context, task) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return FractionallySizedBox(
+        alignment: Alignment.bottomCenter,
+        heightFactor: 0.5, // Réduit la hauteur du modal à la moitié de l'écran
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: SizedBox(
+            width: MediaQuery.of(context)
+                .size
+                .width, // Prend toute la largeur de l'écran
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  task.title,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18), // Titre en gras
+                ),
+                SizedBox(height: 8),
+                Text(task.description), // Affichage de la description
+                SizedBox(height: 16),
+                Spacer(), // Pousse tout le contenu vers le haut pour mettre le bouton en bas
+                Align(
+                  alignment:
+                      Alignment.center, // Centrer le bouton horizontalement
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Ajoutez la logique pour la modification de la tâche ici
+                      print('Modifier la tâche');
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue, // Texte en blanc
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 12), // Un peu d'espace autour du texte
                     ),
+                    child: Text('Modifier'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
 }
