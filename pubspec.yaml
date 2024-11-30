@@ -39,6 +39,10 @@ dependencies:
   table_calendar: ^3.1.2
   flutter_swipe_action_cell: ^3.1.5
   intl: ^0.19.0
+<<<<<<< HEAD
+=======
+  http: ^1.2.2
+>>>>>>> 21e5289 (initial commit)
 
 dev_dependencies:
   flutter_test:

@@ -5,10 +5,18 @@ class TaskFilter {
   static void applyFilter(List<Task> tasks, String filter) {
     if (filter == "date") {
       // Trier par date
+<<<<<<< HEAD
       tasks.sort((a, b) => a.date.compareTo(b.date));
     } else if (filter == "priority") {
       // Trier par priorité
       tasks.sort((a, b) => _getPriorityValue(a.priority).compareTo(_getPriorityValue(b.priority)));
+=======
+      tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    } else if (filter == "priority") {
+      // Trier par priorité
+      tasks.sort((a, b) => _getPriorityValue(a.priority)
+          .compareTo(_getPriorityValue(b.priority)));
+>>>>>>> 21e5289 (initial commit)
     }
   }
 
