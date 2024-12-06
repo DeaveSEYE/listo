@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
@@ -17,22 +16,12 @@ class ListCategories extends StatefulWidget {
     required this.categories,
     required this.onCategorySelected,
   });
-=======
-import 'package:flutter/material.dart';
-import 'package:listo/core/utils/task.dart';
-
-class ListCategories extends StatefulWidget {
-  final List<Task> tasks; // Liste des tâches
-
-  const ListCategories({super.key, required this.tasks});
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
 
   @override
   State<ListCategories> createState() => _ListCategoriesState();
 }
 
 class _ListCategoriesState extends State<ListCategories> {
-<<<<<<< HEAD
   String? selectedCategory;
   Color? selectedCategoryColor;
   Map<String, Color> categories = {};
@@ -48,20 +37,11 @@ class _ListCategoriesState extends State<ListCategories> {
     for (var categorie in widget.categories) {
       if (!categories.containsKey(categorie.categorie)) {
         categories[categorie.categorie] = categorie.categorieColor;
-=======
-  // Méthode pour extraire les catégories et leurs couleurs uniques
-  Map<String, Color> _extractCategories() {
-    final Map<String, Color> categories = {};
-    for (var task in widget.tasks) {
-      if (!categories.containsKey(task.categorie)) {
-        categories[task.categorie] = task.categorieColor; // Ajoute la catégorie et sa couleur
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
       }
     }
     return categories;
   }
 
-<<<<<<< HEAD
   void _addCategory(String name, Color color) {
     setState(() {
       categories[name] = color;
@@ -221,33 +201,6 @@ class _ListCategoriesState extends State<ListCategories> {
           ),
         ),
       ],
-=======
-  @override
-  Widget build(BuildContext context) {
-    final categories = _extractCategories(); // Récupère les catégories et leurs couleurs
-
-    return SizedBox(
-      height: 50, // Définissez une hauteur pour que les Chips s'affichent correctement
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal, // Active le défilement horizontal
-        child: Row(
-          children: categories.entries.map((entry) {
-            final category = entry.key;
-            final color = entry.value;
-
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0), // Espacement entre les Chips
-              child: Chip(
-                label: Text(category), // Affiche le nom de la catégorie
-                backgroundColor: color, // Couleur de fond 
-                labelStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Texte de la couleur de la catégorie
-                padding: const EdgeInsets.all(5), // Padding interne du Chip
-              ),
-            );
-          }).toList(),
-        ),
-      ),
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
     );
   }
 }

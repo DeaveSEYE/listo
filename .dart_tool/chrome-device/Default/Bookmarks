@@ -1,58 +1,40 @@
 {
-<<<<<<< HEAD
-   "checksum": "0431dee65ca9397b4bb3114b2be01539",
-=======
    "checksum": "c08e97a75ebb006312a81bbf83d46877",
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
    "roots": {
       "bookmark_bar": {
          "children": [  ],
-         "date_added": "13377123406782056",
+         "date_added": "13377978665086722",
          "date_last_used": "0",
          "date_modified": "0",
          "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
          "id": "1",
-<<<<<<< HEAD
-         "name": "Barre de favoris",
-=======
          "name": "Barre des favoris",
          "source": "unknown",
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
          "type": "folder"
       },
       "other": {
          "children": [  ],
-         "date_added": "13377123406782066",
+         "date_added": "13377978665086726",
          "date_last_used": "0",
          "date_modified": "0",
          "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
          "id": "2",
          "name": "Autres favoris",
-<<<<<<< HEAD
-=======
          "source": "unknown",
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
          "type": "folder"
       },
       "synced": {
          "children": [  ],
-         "date_added": "13377123406782073",
+         "date_added": "13377978665086729",
          "date_last_used": "0",
          "date_modified": "0",
          "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
          "id": "3",
-<<<<<<< HEAD
-         "name": "Favoris sur mobile",
-         "type": "folder"
-      }
-   },
-=======
          "name": "Favoris de l'appareil mobile",
          "source": "unknown",
          "type": "folder"
       }
    },
-   "sync_metadata": "CkEKHgiIgQISCF+R9WmTAQAAKg4QABgBIAAoBTAAOABAABIAKhhOWTJndkdDZzQwK09vLzZkbEpJMGRBPT1IA6AGDBKOAQgBEokBChx5eEovNmZ2a2VjcjdrcDVFUXpCNHRXTHBkYkU9EiRjZjY5NGI4Mi1iYWJjLTUyYjUtYWYwYi00MjBiMTgwYWMxMGUYACAAKAAwzcOq9oIxOLTGqvaCMUC0xqr2gjFKHGFSQ1dMZ2hGOWI1SW5xS0lEdnVKL2p2UWtGYz1aAGUAAAAAwj4CYAASjgEIAhKJAQocWWNTVG9udkVTUHdxQ3M0TDJjclZodjY4TDk4PRIkMDI1ZDgxY2UtMzkwYy01NTU5LWFkNDYtYzBkOGZmNjQyNTM1GAAgACgAMM7DqvaCMTjuxqr2gjFA7saq9oIxShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAAMI+AmAAEo4BCAMSiQEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SJGI2YmFiOWU0LWZmM2QtNTE3Yy1iMWZhLTBkNWFhNTM0YTNmYxgAIAAoADDTw6r2gjE4oMiq9oIxQKDIqvaCMUoceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPVoAZQAAAADCPgJgADAAOAA=",
->>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
+   "sync_metadata": "CkEKHgiIgQISCCDS75yTAQAAKg4QABgBIAAoBTAAOABAABIAKhhocnlQbjZveG5LN0syWm10aDdEUytBPT1IA6AGDBKOAQgBEokBChx5eEovNmZ2a2VjcjdrcDVFUXpCNHRXTHBkYkU9EiRjZjY5NGI4Mi1iYWJjLTUyYjUtYWYwYi00MjBiMTgwYWMxMGUYACAAKAAwzcOq9oIxOLTGqvaCMUC0xqr2gjFKHGFSQ1dMZ2hGOWI1SW5xS0lEdnVKL2p2UWtGYz1aAGUAAAAAwj4CYAASjgEIAhKJAQocWWNTVG9udkVTUHdxQ3M0TDJjclZodjY4TDk4PRIkMDI1ZDgxY2UtMzkwYy01NTU5LWFkNDYtYzBkOGZmNjQyNTM1GAAgACgAMM7DqvaCMTjuxqr2gjFA7saq9oIxShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAAMI+AmAAEo4BCAMSiQEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SJGI2YmFiOWU0LWZmM2QtNTE3Yy1iMWZhLTBkNWFhNTM0YTNmYxgAIAAoADDTw6r2gjE4oMiq9oIxQKDIqvaCMUoceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPVoAZQAAAADCPgJgADAAOAA=",
    "version": 1
 }

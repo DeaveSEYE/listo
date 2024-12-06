@@ -1,3 +1,8 @@
-2024/11/30-16:02:24.482 17a8 Reusing MANIFEST C:\Users\USER\AppData\Local\Temp\flutter_tools.ed0c9be2\flutter_tools_chrome_device.3604fce0\Default\Extension Rules/MANIFEST-000001
-2024/11/30-16:02:24.537 17a8 Recovering log #3
-2024/11/30-16:02:24.537 17a8 Reusing old log C:\Users\USER\AppData\Local\Temp\flutter_tools.ed0c9be2\flutter_tools_chrome_device.3604fce0\Default\Extension Rules/000003.log 
+<<<<<<< HEAD
+2024/11/30-16:06:23.825 e4 Reusing MANIFEST C:\Users\USER\AppData\Local\Temp\flutter_tools.6caa5b60\flutter_tools_chrome_device.d06c7c0e\Default\Extension Rules/MANIFEST-000001
+2024/11/30-16:06:23.826 e4 Recovering log #3
+2024/11/30-16:06:23.827 e4 Reusing old log C:\Users\USER\AppData\Local\Temp\flutter_tools.6caa5b60\flutter_tools_chrome_device.d06c7c0e\Default\Extension Rules/000003.log 
+=======
+2024/11/26-19:36:47.003 2a74 Creating DB C:\Users\USER\AppData\Local\Temp\flutter_tools.788e58fe\flutter_tools_chrome_device.a1e83842\Default\Extension Rules since it was missing.
+2024/11/26-19:36:47.016 2a74 Reusing MANIFEST C:\Users\USER\AppData\Local\Temp\flutter_tools.788e58fe\flutter_tools_chrome_device.a1e83842\Default\Extension Rules/MANIFEST-000001
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
