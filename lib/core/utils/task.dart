@@ -1,13 +1,37 @@
+<<<<<<< HEAD
 // ignore_for_file: equal_keys_in_map
 
+=======
+<<<<<<< HEAD
+
+
+import 'package:flutter/material.dart';
+enum Priority { basse, moyenne, eleve }
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
 import 'package:flutter/material.dart';
 
 enum Priority { basse, moyenne, eleve }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
 // Task model
 class Task {
   final int id;
   final String title;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+  final String date;
+  final String categorie;
+  final Color categorieColor;
+  final Color flagColor;
+  bool isChecked;
+  Priority priority;
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   final String categorie;
   final String description;
   final Color categorieColor;
@@ -16,10 +40,27 @@ class Task {
   final String createdAt;
   final String updatedAt;
   final String dueDate;
+<<<<<<< HEAD
+=======
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
 
   Task({
     required this.id,
     required this.title,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    required this.date,
+    required this.categorie,
+    required this.categorieColor,
+    required this.flagColor,
+    this.isChecked = false, // Valeur par défaut
+    this.priority = Priority.basse, // Valeur par défaut pour la priorité
+  });
+}
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
     required this.description,
     required this.createdAt,
     required this.updatedAt,
@@ -38,6 +79,7 @@ class Task {
       updatedAt: json['updatedAt'],
       dueDate: json['dueDate'],
       categorie: json['categorie'],
+<<<<<<< HEAD
       categorieColor:
           getColorFromName(json['categorieColor']), // Conversion ici
       isChecked:
@@ -202,3 +244,12 @@ Priority getPriorityFromString(String? priority) {
       throw ArgumentError('Unknown priority: $priority');
   }
 }
+=======
+      categorieColor: Color(json['categorieColor']),
+      isChecked: json['isChecked'],
+      priority: Priority.values[json['priority']],
+    );
+  }
+}
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566

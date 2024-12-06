@@ -99,6 +99,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.2.0"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   http:
     dependency: "direct main"
     description:
@@ -115,6 +120,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+<<<<<<< HEAD
+=======
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   intl:
     dependency: "direct main"
     description:
@@ -256,6 +265,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   typed_data:
     dependency: transitive
     description:
@@ -264,6 +278,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+<<<<<<< HEAD
+=======
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   vector_math:
     dependency: transitive
     description:
@@ -280,6 +298,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.5"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
   web:
     dependency: transitive
     description:
@@ -288,6 +311,10 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+<<<<<<< HEAD
+=======
+>>>>>>> 21e5289 (initial commit)
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
 sdks:
   dart: ">=3.5.4 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"

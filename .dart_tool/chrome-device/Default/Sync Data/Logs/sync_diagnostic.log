@@ -392,6 +392,7 @@
 2024-11-29 13:09:14.043: [INFO][Sync]     Configuration completed, state: 7
 2024-11-29 13:09:14.045: [INFO][Sync] Configured DataTypeManager: Ok
 2024-11-29 13:09:14.047: [INFO][SyncEngineBackend::DoStartSyncing] Start syncing
+<<<<<<< HEAD
 2024-11-30 16:06:23.278: [INFO][Sync] SyncState after authenticated was: FeatureNotRequestedNotSetup
 2024-11-30 16:06:25.866: [INFO][Sync] Try to start sync engine
 2024-11-30 16:06:25.933: [INFO][SyncManagerImpl::NudgeForInitialDownload] Initial download nudge for Encryption Keys
@@ -402,3 +403,5 @@
 2024-11-30 16:06:34.963: [INFO][SyncAuthManager::SetLastAuthError] Current auth error: None
 2024-11-30 16:06:34.963: [INFO][SyncAuthManager::EdgeLogTokenErrorState] Token error with: None for account type: MSA
 2024-11-30 16:06:34.964: [INFO][Sync] Credentials changed for: EdgeSyncScopeNew
+=======
+>>>>>>> 67dcd6674c2dc54cbe30ca18b1dd4959dd283566
