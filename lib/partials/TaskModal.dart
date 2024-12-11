@@ -83,7 +83,7 @@ class TaskModal {
                               String colorName =
                                   getColorName(selectedCategoryColor!);
                               //print(colorName); // Cela renverra "Orange"
-                              
+
                               // Vérifier si les champs sont valides
                               if (titleController.text.isEmpty ||
                                   titleController.text.length < 2) {
@@ -129,8 +129,23 @@ class TaskModal {
                               };
 
                               if (isEditing) {
-                                print('edition');
-                                print(taskData);
+                                print('EDITION DE TACHE');
+                                try {
+                                  await ApiService.updateTask(
+                                      task!.id, taskData);
+                                  Navigator.pop(context);
+                                  // Mise à jour de la liste des tâches
+                                  //  await _fetchTasks();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('Tâche Modifié avec succès!')),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Erreur: $e')),
+                                  );
+                                }
                               } else {
                                 try {
                                   await ApiService.addTask(taskData);
@@ -197,12 +212,6 @@ class TaskModal {
                             child: Column(
                               children: [
                                 const Icon(Icons.calendar_today, size: 24),
-                                if (task != null)
-                                  Text(
-                                    // Afficher la date de la tâche sous forme de jour/mois/année
-                                    "${DateTime.parse(task!.dueDate).day}/${DateTime.parse(task!.dueDate).month}/${DateTime.parse(task!.dueDate).year}",
-                                    style: const TextStyle(fontSize: 12),
-                                  ),
                                 if (selectedDate != null)
                                   Text(
                                     "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
@@ -260,19 +269,6 @@ class TaskModal {
                                 ),
                                 backgroundColor:
                                     selectedCategoryColor, // Couleur de fond basée sur la catégorie sélectionnée
-                              ),
-                            ),
-                          if (task != null)
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Chip(
-                                label: Text(
-                                  task!.categorie,
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white),
-                                ),
-                                backgroundColor: task!
-                                    .categorieColor, // Couleur de fond basée sur la catégorie sélectionnée
                               ),
                             ),
                         ],

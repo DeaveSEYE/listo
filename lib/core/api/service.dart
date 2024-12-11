@@ -55,13 +55,15 @@ class ApiService {
   }
 
   // update task to the API
-  static Future<void> updateTask(int taskId) async {
+  static Future<void> updateTask(
+      int taskId, Map<String, dynamic> taskData) async {
     final apiUrl = '$taskApiUrl/$taskId';
 
     try {
       final response = await http.patch(
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(taskData),
       );
 
       // Vérifie si le code de statut indique une réussite (200 ou 204)
