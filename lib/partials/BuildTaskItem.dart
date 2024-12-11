@@ -4,6 +4,7 @@ import 'package:listo/core/api/service.dart';
 import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
 import 'package:listo/partials/TaskModal.dart';
+import 'package:listo/partials/notification.dart';
 
 class BuildTaskItem extends StatefulWidget {
   final Task task;
@@ -64,6 +65,17 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
         SwipeAction(
           onTap: (handler) {
             // Gestion de l'action de mise à jour ici si nécessaire
+            TaskModal(
+              context: context,
+              categories: categories,
+              task: widget.task, // Tâche vide pour ajouter une nouvelle tâche
+              onTaskAdded: (taskData) async {
+                // Call your API to add the task
+                await ApiService.addTask(taskData);
+                // Update tasks and show success
+                //await _fetchTasks();
+              },
+            ).showAddTaskModal();
           },
           content: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -81,12 +93,19 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
               setState(() {
                 widget.onDelete(widget.index);
               });
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Tâche Supprimée avec succès!')),
+              NotificationHelper.showFlushbar(
+                // ignore: use_build_context_synchronously
+                context: context,
+                message: "Tâche Supprimée avec succès",
+                type: NotificationType.success,
               );
             } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Une erreur est survenue : $e")),
+              NotificationHelper.showFlushbar(
+                // ignore: use_build_context_synchronously
+                context: context,
+                message:
+                    "Une erreur est survenue lors de la suppression de la tache",
+                type: NotificationType.success,
               );
             }
           },

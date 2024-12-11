@@ -4,6 +4,7 @@ import 'package:listo/core/theme/ListCategories.dart';
 import 'package:listo/core/theme/colors.dart';
 import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
+import 'package:listo/partials/notification.dart';
 
 class TaskModal {
   final BuildContext context;
@@ -136,14 +137,19 @@ class TaskModal {
                                   Navigator.pop(context);
                                   // Mise à jour de la liste des tâches
                                   //  await _fetchTasks();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text('Tâche Modifié avec succès!')),
+                                  NotificationHelper.showFlushbar(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    message: "Tache Modifié avec success",
+                                    type: NotificationType.success,
                                   );
                                 } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Erreur: $e')),
+                                  NotificationHelper.showFlushbar(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    message:
+                                        "une erreur s'est produite lors de la modification de la tache",
+                                    type: NotificationType.alert,
                                   );
                                 }
                               } else {
@@ -152,14 +158,19 @@ class TaskModal {
                                   Navigator.pop(context);
                                   // Mise à jour de la liste des tâches
                                   //  await _fetchTasks();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content:
-                                            Text('Tâche ajoutée avec succès!')),
+                                  NotificationHelper.showFlushbar(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    message: "Tâche ajoutée avec succès",
+                                    type: NotificationType.success,
                                   );
                                 } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Erreur: $e')),
+                                  NotificationHelper.showFlushbar(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    message:
+                                        "une erreur s'est produite lors de l'ajout de la tache",
+                                    type: NotificationType.alert,
                                   );
                                 }
                               }

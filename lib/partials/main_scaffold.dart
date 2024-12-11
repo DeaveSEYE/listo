@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:listo/core/api/service.dart';
 import 'package:listo/core/theme/colors.dart';
@@ -12,6 +13,7 @@ import 'package:listo/features/profile/ui/profile.dart';
 import 'package:listo/partials/TaskModal.dart';
 import 'package:listo/partials/app_bar.dart';
 import 'package:listo/partials/floating_action_button.dart';
+import 'package:listo/partials/notification.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key});
@@ -41,14 +43,20 @@ class _MainScaffoldState extends State<MainScaffold> {
         isLoading = false;
         //print(tasks);
       });
+// Exemple pour une notification de succès
+      NotificationHelper.showFlushbar(
+        context: context,
+        message: "Listes des Taches récuperer Via API avec succès!",
+        type: NotificationType.success,
+      );
     } catch (e) {
       setState(() {
         isLoading = false;
       });
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Impossible de charger la liste des taches : $e')),
+      NotificationHelper.showFlushbar(
+        context: context,
+        message: "Impossible de charger la liste des taches via API",
+        type: NotificationType.alert,
       );
     }
   }
@@ -65,11 +73,10 @@ class _MainScaffoldState extends State<MainScaffold> {
       setState(() {
         isLoading = false;
       });
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text('Impossible de charger la liste des categories : $e')),
+      NotificationHelper.showFlushbar(
+        context: context,
+        message: "Impossible de charger la liste des categories via API",
+        type: NotificationType.alert,
       );
     }
   }
