@@ -4,7 +4,7 @@ import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
 
 class ApiService {
-  //static const String taskApiUrl = 'http://localhost:3000/task';
+  // static const String taskApiUrl = 'http://localhost:3000/task';
   //static const String categorieApiUrl = 'http://localhost:3000/categorie';
 
   static const String taskApiUrl = 'https://taskapi-yz3z.onrender.com/task';
@@ -30,6 +30,48 @@ class ApiService {
     );
     if (response.statusCode != 201) {
       throw Exception('Failed to add task: ${response.body}');
+    }
+  }
+
+  // delete task to the API
+  static Future<void> deleteTask(int taskId) async {
+    final apiUrl = '$taskApiUrl/$taskId';
+
+    try {
+      final response = await http.delete(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      // Vérifie si le code de statut indique une réussite (200 ou 204)
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception('Failed to delete task: ${response.body}');
+      }
+    } catch (e) {
+      // Gérer les exceptions, par exemple afficher une erreur ou la journaliser
+      print('Error deleting task: $e');
+      throw Exception('An error occurred while deleting the task.');
+    }
+  }
+
+  // update task to the API
+  static Future<void> updateTask(int taskId) async {
+    final apiUrl = '$taskApiUrl/$taskId';
+
+    try {
+      final response = await http.patch(
+        Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      // Vérifie si le code de statut indique une réussite (200 ou 204)
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception('Failed to update task: ${response.body}');
+      }
+    } catch (e) {
+      // Gérer les exceptions, par exemple afficher une erreur ou la journaliser
+      print('Error deleting task: $e');
+      throw Exception('An error occurred while updating the task.');
     }
   }
 

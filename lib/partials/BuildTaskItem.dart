@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:listo/core/api/service.dart';
+import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
+import 'package:listo/partials/TaskModal.dart';
 
 class BuildTaskItem extends StatefulWidget {
   final Task task;
@@ -22,11 +25,34 @@ class BuildTaskItem extends StatefulWidget {
 
 class _BuildTaskItemState extends State<BuildTaskItem> {
   late bool isChecked;
+  List<Categorie> categories = []; // Liste des catégories
+  bool isLoading = true;
+
+  // Fonction de récupération des catégories
+  Future<void> _fetchCategories() async {
+    try {
+      final fetchedCategories = await ApiService.fetchCategories();
+      setState(() {
+        categories = fetchedCategories;
+        isLoading = false; // Fin du chargement
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false; // En cas d'erreur, mettre isLoading à false
+      });
+      // Afficher un message d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text('Impossible de charger la liste des categories : $e')),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    // Initialize the state with the current value of isChecked from the task
+    _fetchCategories(); // Charger les catégories lors de l'initialisation
     isChecked = widget.task.isChecked;
   }
 
@@ -37,7 +63,7 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
       leadingActions: [
         SwipeAction(
           onTap: (handler) {
-            // widget.onUpdate(widget.index);
+            // Gestion de l'action de mise à jour ici si nécessaire
           },
           content: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -49,10 +75,20 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
       trailingActions: [
         SwipeAction(
           onTap: (CompletionHandler handler) async {
-            await handler(true);
-            setState(() {
-              // widget.task.removeAt(widget.index);
-            });
+            await handler(true); // Action de suppression
+            try {
+              await ApiService.deleteTask(widget.task.id);
+              setState(() {
+                widget.onDelete(widget.index);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Tâche Supprimée avec succès!')),
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Une erreur est survenue : $e")),
+              );
+            }
           },
           content: const Padding(
             padding: EdgeInsets.all(8.0),
@@ -70,19 +106,19 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
             ),
             onPressed: () {
               setState(() {
-                isChecked = !isChecked; // Toggle checked state
+                isChecked = !isChecked;
               });
             },
           ),
           title: Text(
             widget.task.title,
-            overflow: TextOverflow.ellipsis, // Ajoute "..."
-            maxLines: 1, // Limite à une ligne
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
           subtitle: Text(
             widget.task.dueDate,
-            overflow: TextOverflow.ellipsis, // Ajoute "..."
-            maxLines: 1, // Limite à une ligne
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -102,78 +138,131 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
               const SizedBox(width: 8),
               Icon(
                 Icons.flag,
-                color: _getPriorityColor(
-                    widget.task.priority), // Couleur dynamique
+                color: _getPriorityColor(widget.task.priority),
               ),
             ],
           ),
           onTap: () {
-            showTaskDetails(context, widget.task); // Affiche le modal au tap
+            showTaskDetails(
+                context, widget.task, categories); // Passer les catégories
           },
         ),
       ),
     );
   }
 
-  /// Fonction pour retourner la couleur en fonction de la priorité
   Color _getPriorityColor(Priority priority) {
     switch (priority) {
       case Priority.moyenne:
-        return Colors.yellow; // Moyenne priorité : Jaune
+        return Colors.yellow;
       case Priority.eleve:
-        return Colors.red; // Haute priorité : Rouge
+        return Colors.red;
       default:
-        return Colors.green; // Couleur par défaut
+        return Colors.green;
     }
   }
 }
 
-void showTaskDetails(BuildContext context, task) {
+void showTaskDetails(
+    BuildContext context, Task task, List<Categorie> categories) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (BuildContext context) {
       return FractionallySizedBox(
         alignment: Alignment.bottomCenter,
-        heightFactor: 0.5, // Réduit la hauteur du modal à la moitié de l'écran
+        heightFactor: 0.7,
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16.0),
           child: SizedBox(
-            width: MediaQuery.of(context)
-                .size
-                .width, // Prend toute la largeur de l'écran
+            width: MediaQuery.of(context).size.width,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   task.title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18), // Titre en gras
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 8),
-                Text(task.description), // Affichage de la description
+                Text(
+                  task.description,
+                  style: TextStyle(fontSize: 16),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
                 SizedBox(height: 16),
-                Spacer(), // Pousse tout le contenu vers le haut pour mettre le bouton en bas
-                Align(
-                  alignment:
-                      Alignment.center, // Centrer le bouton horizontalement
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Ajoutez la logique pour la modification de la tâche ici
-                      print('Modifier la tâche');
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.blue, // Texte en blanc
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 12), // Un peu d'espace autour du texte
+                Row(
+                  children: [
+                    Icon(
+                      Icons.flag,
+                      color: _getPriorityColor(task.priority),
                     ),
-                    child: Text('Modifier'),
-                  ),
+                    SizedBox(width: 8),
+                    Text(
+                      _getPriorityText(task.priority),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'Date: ${task.dueDate}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 12),
+                Row(
+                  children: [
+                    Text(
+                      task.isChecked ? 'Tâche Terminée' : 'Tâche en Attente',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.grey,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      child: Text('Fermer'),
+                    ),
+                    SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        TaskModal(
+                          context: context,
+                          categories: categories,
+                          task:
+                              task, // Tâche vide pour ajouter une nouvelle tâche
+                          onTaskAdded: (taskData) async {
+                            // Call your API to add the task
+                            await ApiService.addTask(taskData);
+                            // Update tasks and show success
+                            //await _fetchTasks();
+                          },
+                        ).showAddTaskModal();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blue,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      child: Text('Modifier'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -182,4 +271,26 @@ void showTaskDetails(BuildContext context, task) {
       );
     },
   );
+}
+
+Color _getPriorityColor(Priority priority) {
+  switch (priority) {
+    case Priority.moyenne:
+      return Colors.yellow; // Moyenne priorité : Jaune
+    case Priority.eleve:
+      return Colors.red; // Haute priorité : Rouge
+    default:
+      return Colors.green; // Couleur par défaut
+  }
+}
+
+String _getPriorityText(Priority priority) {
+  switch (priority) {
+    case Priority.moyenne:
+      return 'Pririté : Moyenne';
+    case Priority.eleve:
+      return 'Pririté : Haute';
+    default:
+      return 'Pririté : Basse';
+  }
 }

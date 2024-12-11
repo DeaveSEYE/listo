@@ -4,7 +4,6 @@ import 'package:listo/partials/BuildTaskItem.dart'; // Ensure BuildTaskItem is i
 
 class Listviews extends StatefulWidget {
   final List<Task> tasks; // List of tasks passed as a parameter
-
   const Listviews(this.tasks, {super.key});
 
   @override
@@ -22,7 +21,8 @@ class _ListviewsState extends State<Listviews> {
   // Function to handle task update
   void _onUpdate(int index) {
     setState(() {
-      widget.tasks[index].isChecked = !widget.tasks[index].isChecked; // Toggles isChecked
+      widget.tasks[index].isChecked =
+          !widget.tasks[index].isChecked; // Toggles isChecked
     });
   }
 
