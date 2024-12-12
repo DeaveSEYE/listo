@@ -1,19 +1,16 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listo/core/api/service.dart';
+import 'package:listo/core/cubit/taskCubit.dart';
 import 'package:listo/core/theme/colors.dart';
 import 'package:listo/core/utils/categorie.dart';
-import 'package:listo/core/utils/task.dart';
-import 'package:listo/features/home/ui/home.dart';
-import 'package:listo/features/tasks/ui/tasklist.dart';
 import 'package:listo/features/calendar/ui/calendar.dart';
+import 'package:listo/features/home/ui/home.dart';
 import 'package:listo/features/profile/ui/profile.dart';
+import 'package:listo/features/tasks/ui/tasklist.dart';
 import 'package:listo/partials/TaskModal.dart';
 import 'package:listo/partials/app_bar.dart';
 import 'package:listo/partials/floating_action_button.dart';
-import 'package:listo/partials/notification.dart';
 
 class MainScaffold extends StatefulWidget {
   const MainScaffold({super.key});
@@ -24,41 +21,12 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
-  List<Task> tasks = [];
-  List<Categorie> categories = []; // Liste des catégories
   bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchTasks();
-    _fetchCategories();
-  }
-
-  Future<void> _fetchTasks() async {
-    try {
-      final fetchedTasks = await ApiService.fetchTasks();
-      setState(() {
-        tasks = fetchedTasks;
-        isLoading = false;
-        //print(tasks);
-      });
-// Exemple pour une notification de succès
-      NotificationHelper.showFlushbar(
-        context: context,
-        message: "Listes des Taches récuperer Via API avec succès!",
-        type: NotificationType.success,
-      );
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      NotificationHelper.showFlushbar(
-        context: context,
-        message: "Impossible de charger la liste des taches via API",
-        type: NotificationType.alert,
-      );
-    }
+  List<Categorie> categories = []; // Liste des catégories
+  void setCurrentIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   Future<void> _fetchCategories() async {
@@ -66,25 +34,24 @@ class _MainScaffoldState extends State<MainScaffold> {
       final fetchedCategories = await ApiService.fetchCategories();
       setState(() {
         categories = fetchedCategories;
-        //isLoading = false;
-        //print(tasks);
+        isLoading = false; // Fin du chargement
       });
     } catch (e) {
       setState(() {
-        isLoading = false;
+        isLoading = false; // En cas d'erreur, mettre isLoading à false
       });
-      NotificationHelper.showFlushbar(
-        context: context,
-        message: "Impossible de charger la liste des categories via API",
-        type: NotificationType.alert,
+      // Afficher un message d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text('Impossible de charger la liste des categories : $e')),
       );
     }
   }
 
-  void setCurrentIndex(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  void initState() {
+    super.initState();
+    _fetchCategories(); // Charger les catégories lors de l'initialisation
   }
 
   @override
@@ -92,14 +59,27 @@ class _MainScaffoldState extends State<MainScaffold> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const CustomAppBar(),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : [
-              Home(tasks: tasks, categories: categories),
-              Tasklist(tasks: tasks, categories: categories),
-              CalendarPage(tasks: tasks),
-              const ProfileScreen(),
-            ][_selectedIndex],
+      body: BlocListener<TaskCubit, Data>(listener: (context, state) {
+        // Ce callback est appelé lorsque l'état du cubit est mis à jour
+        // Par exemple, après un appel à reload()
+        if (state.tasks.isEmpty) {
+          print("Aucune tâche disponible");
+        }
+      }, child: BlocBuilder<TaskCubit, Data>(
+        builder: (context, state) {
+          if (state.tasks.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final tasks = state.tasks;
+
+          return [
+            Home(tasks: tasks, categories: categories),
+            Tasklist(tasks: tasks, categories: categories),
+            CalendarPage(tasks: tasks),
+            const ProfileScreen(),
+          ][_selectedIndex];
+        },
+      )),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
@@ -121,27 +101,15 @@ class _MainScaffoldState extends State<MainScaffold> {
           onPressed: () {
             TaskModal(
               context: context,
+              taskCubit:
+                  context.read<TaskCubit>(), // Pass the TaskCubit instance
               categories: categories,
               task: null, // Tâche vide pour ajouter une nouvelle tâche
-              onTaskAdded: (taskData) async {
-                // Call your API to add the task
-                await ApiService.addTask(taskData);
-                // Update tasks and show success
-                await _fetchTasks();
-              },
+              onTaskAdded: (taskData) async {},
             ).showAddTaskModal();
           },
           icon: Icons.add,
         ),
-      ),
-    );
-  }
-
-  void showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
       ),
     );
   }

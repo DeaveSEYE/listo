@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:listo/core/api/service.dart';
+import 'package:listo/core/cubit/taskCubit.dart';
 import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
 import 'package:listo/partials/TaskModal.dart';
@@ -67,6 +69,8 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
             // Gestion de l'action de mise à jour ici si nécessaire
             TaskModal(
               context: context,
+              taskCubit:
+                  context.read<TaskCubit>(), // Pass the TaskCubit instance
               categories: categories,
               task: widget.task, // Tâche vide pour ajouter une nouvelle tâche
               onTaskAdded: (taskData) async {
@@ -99,6 +103,7 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
                 message: "Tâche Supprimée avec succès",
                 type: NotificationType.success,
               );
+              context.read<TaskCubit>().reload();
             } catch (e) {
               NotificationHelper.showFlushbar(
                 // ignore: use_build_context_synchronously
@@ -162,8 +167,8 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
             ],
           ),
           onTap: () {
-            showTaskDetails(
-                context, widget.task, categories); // Passer les catégories
+            showTaskDetails(context, widget.task, categories,
+                context.read<TaskCubit>()); // Passer les catégories
           },
         ),
       ),
@@ -183,7 +188,7 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
 }
 
 void showTaskDetails(
-    BuildContext context, Task task, List<Categorie> categories) {
+    BuildContext context, Task task, List<Categorie> categories, tCubit) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -262,15 +267,11 @@ void showTaskDetails(
                         Navigator.pop(context);
                         TaskModal(
                           context: context,
+                          taskCubit: tCubit, // Pass the TaskCubit instance
                           categories: categories,
                           task:
                               task, // Tâche vide pour ajouter une nouvelle tâche
-                          onTaskAdded: (taskData) async {
-                            // Call your API to add the task
-                            await ApiService.addTask(taskData);
-                            // Update tasks and show success
-                            //await _fetchTasks();
-                          },
+                          onTaskAdded: (taskData) async {},
                         ).showAddTaskModal();
                       },
                       style: ElevatedButton.styleFrom(

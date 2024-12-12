@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listo/core/api/service.dart';
+import 'package:listo/core/cubit/taskCubit.dart';
 import 'package:listo/core/theme/ListCategories.dart';
 import 'package:listo/core/theme/colors.dart';
 import 'package:listo/core/utils/categorie.dart';
@@ -8,11 +10,13 @@ import 'package:listo/partials/notification.dart';
 
 class TaskModal {
   final BuildContext context;
+  final TaskCubit taskCubit; // Add this line
   final Function onTaskAdded;
   final Task? task; // Laisser `task` nullable pour gérer le cas de l'ajout
   final List<Categorie> categories; // Liste des tâches passée en paramètre
   TaskModal({
     required this.context,
+    required this.taskCubit, // Pass TaskCubit as a parameter
     required this.onTaskAdded,
     required this.categories,
     required this.task, // Initialisez avec la tâche existante
@@ -174,6 +178,8 @@ class TaskModal {
                                   );
                                 }
                               }
+                              await taskCubit
+                                  .reload(); // Reload taskCubit to refresh data
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
