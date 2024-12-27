@@ -27,6 +27,7 @@ class BuildTaskItem extends StatefulWidget {
 }
 
 class _BuildTaskItemState extends State<BuildTaskItem> {
+  final apiService = ApiService(); // Instancie ApiService
   late bool isChecked;
   List<Categorie> categories = []; // Liste des catégories
   bool isLoading = true;
@@ -35,20 +36,26 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
   Future<void> _fetchCategories() async {
     try {
       final fetchedCategories = await ApiService.fetchCategories();
-      setState(() {
-        categories = fetchedCategories;
-        isLoading = false; // Fin du chargement
-      });
+      if (mounted) {
+        setState(() {
+          categories = fetchedCategories;
+          isLoading = false; // Fin du chargement
+        });
+      }
     } catch (e) {
-      setState(() {
-        isLoading = false; // En cas d'erreur, mettre isLoading à false
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false; // En cas d'erreur, mettre isLoading à false
+        });
+      }
       // Afficher un message d'erreur
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text('Impossible de charger la liste des categories : $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Impossible de charger la liste des catégories : $e'),
+          ),
+        );
+      }
     }
   }
 
@@ -75,9 +82,7 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
               task: widget.task, // Tâche vide pour ajouter une nouvelle tâche
               onTaskAdded: (taskData) async {
                 // Call your API to add the task
-                await ApiService.addTask(taskData);
-                // Update tasks and show success
-                //await _fetchTasks();
+                await apiService.addTask(taskData);
               },
             ).showAddTaskModal();
           },
@@ -93,7 +98,8 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
           onTap: (CompletionHandler handler) async {
             await handler(true); // Action de suppression
             try {
-              await ApiService.deleteTask(widget.task.id);
+              await apiService.deleteTask(widget.task.toJson());
+              // await apiService.deleteTask(widget.task.id);
               setState(() {
                 widget.onDelete(widget.index);
               });
@@ -173,17 +179,6 @@ class _BuildTaskItemState extends State<BuildTaskItem> {
         ),
       ),
     );
-  }
-
-  Color _getPriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.moyenne:
-        return Colors.yellow;
-      case Priority.eleve:
-        return Colors.red;
-      default:
-        return Colors.green;
-    }
   }
 }
 
@@ -293,22 +288,22 @@ void showTaskDetails(
   );
 }
 
-Color _getPriorityColor(Priority priority) {
+Color _getPriorityColor(String priority) {
   switch (priority) {
-    case Priority.moyenne:
-      return Colors.yellow; // Moyenne priorité : Jaune
-    case Priority.eleve:
-      return Colors.red; // Haute priorité : Rouge
+    case "moyenne":
+      return Colors.yellow;
+    case "eleve":
+      return Colors.red;
     default:
-      return Colors.green; // Couleur par défaut
+      return Colors.green;
   }
 }
 
-String _getPriorityText(Priority priority) {
+String _getPriorityText(String priority) {
   switch (priority) {
-    case Priority.moyenne:
+    case "moyenne":
       return 'Pririté : Moyenne';
-    case Priority.eleve:
+    case "eleve":
       return 'Pririté : Haute';
     default:
       return 'Pririté : Basse';

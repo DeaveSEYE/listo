@@ -56,5 +56,5 @@ class NotificationHelper {
 enum NotificationType {
   success,
   alert,
-  info,
+  info, error,
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listo/core/api/service.dart';
 import 'package:listo/core/cubit/taskCubit.dart';
 import 'package:listo/core/theme/ListCategories.dart';
@@ -23,14 +22,16 @@ class TaskModal {
   });
 
   void showAddTaskModal() {
+    final apiService = ApiService(); // Instancie ApiService
     final titleController = TextEditingController(text: task?.title ?? '');
     final descriptionController =
         TextEditingController(text: task?.description ?? '');
     // final TextEditingController dateController = TextEditingController();
-    final TextEditingController priorityController = TextEditingController();
+    // final TextEditingController priorityController = TextEditingController();
 
     Color? selectedCategoryColor;
     String? selectedCategory;
+    String? id;
     DateTime? selectedDate;
     Color selectedFlagColor = Colors.grey;
     String prior = "";
@@ -38,8 +39,8 @@ class TaskModal {
 
     if (task != null) {
       //print(task!.priority.name);
-      selectedFlagColor = flagFromPriority(task!.priority.name);
-      prior = task!.priority.name;
+      selectedFlagColor = flagFromPriority(task!.priority);
+      prior = task!.priority;
     }
     if (task != null) {
       selectedCategory = task!.categorie;
@@ -49,6 +50,9 @@ class TaskModal {
     }
     if (task != null) {
       selectedDate = DateTime.parse(task!.dueDate);
+    }
+    if (task != null) {
+      id = task!.id;
     }
 
     showModalBottomSheet(
@@ -87,7 +91,7 @@ class TaskModal {
                             onPressed: () async {
                               String colorName =
                                   getColorName(selectedCategoryColor!);
-                              //print(colorName); // Cela renverra "Orange"
+                              // print(colorName); // Cela renverra "Orange"
 
                               // Vérifier si les champs sont valides
                               if (titleController.text.isEmpty ||
@@ -124,19 +128,24 @@ class TaskModal {
                               }
 
                               final taskData = {
+                                'id': id,
                                 'title': titleController.text,
                                 'categorie': selectedCategory,
                                 'description': descriptionController.text,
+                                'createdAt': selectedDate?.toIso8601String(),
+                                'updatedAt': selectedDate?.toIso8601String(),
                                 'dueDate': selectedDate?.toIso8601String(),
                                 "priority": prior,
                                 "isChecked": false,
-                                "categorieColor": colorName
+                                "categorieColor": 'red'
+                                // "categorieColor": colorName
                               };
-
+                              // print('LA');
+                              // print(taskData);
                               if (isEditing) {
                                 print('EDITION DE TACHE');
                                 try {
-                                  await ApiService.updateTask(
+                                  await apiService.updateTask(
                                       task!.id, taskData);
                                   Navigator.pop(context);
                                   // Mise à jour de la liste des tâches
@@ -158,7 +167,7 @@ class TaskModal {
                                 }
                               } else {
                                 try {
-                                  await ApiService.addTask(taskData);
+                                  await apiService.addTask(taskData);
                                   Navigator.pop(context);
                                   // Mise à jour de la liste des tâches
                                   //  await _fetchTasks();
@@ -256,12 +265,8 @@ class TaskModal {
                                           onPressed: () {
                                             setState(() {
                                               selectedFlagColor = color;
-                                              priorityController.text =
-                                                  selectedFlagColor.toString();
-
-                                              // Définir automatiquement la priorité
                                               prior = priorityFromColorString(
-                                                  priorityController.text);
+                                                  color); // Get priority based on selected color
                                               print('Priorité : $prior');
                                             });
                                             Navigator.pop(context);
@@ -354,16 +359,16 @@ class TaskModal {
     }
   }
 
-  String priorityFromColorString(String colorString) {
-    String colorName = getColorNameFromToString(colorString);
-
-    return (colorName == "red")
-        ? "eleve"
-        : (colorName == "green")
-            ? "basse"
-            : (colorName == "yellow")
-                ? "moyenne"
-                : "inconnue";
+  String priorityFromColorString(Color color) {
+    if (color == Colors.red) {
+      return "eleve"; // High priority
+    } else if (color == Colors.yellow) {
+      return "moyenne"; // Medium priority
+    } else if (color == Colors.green) {
+      return "basse"; // Low priority
+    } else {
+      return "inconnue"; // Unknown priority
+    }
   }
 
   Color flagFromPriority(String priority) {
@@ -372,8 +377,10 @@ class TaskModal {
         return Colors.red;
       case 'moyenne':
         return Colors.yellow;
-      default:
+      case 'basse':
         return Colors.green;
+      default:
+        return Colors.grey; // Default flag color
     }
   }
 

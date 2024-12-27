@@ -4,7 +4,6 @@ import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task.dart';
 import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/Listview.dart';
-import 'package:listo/partials/searchbar.dart';
 
 class Home extends StatefulWidget {
   final List<Task> tasks; // Liste des tâches passée en paramètre
@@ -55,7 +54,7 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Searchbar(),
+         // const Searchbar(),
           const SizedBox(height: 5),
           // ListCategories utilise toujours widget.tasks
           ListCategories(

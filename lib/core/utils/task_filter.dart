@@ -4,7 +4,7 @@ class TaskFilter {
   /// Trie les tâches par date ou priorité
   static void applyFilter(List<Task> tasks, String filter) {
     if (filter == "date") {
-      // Trier par date
+      // Trier par date d'échéance (dueDate)
       tasks.sort((a, b) => a.dueDate.compareTo(b.dueDate));
     } else if (filter == "priority") {
       // Trier par priorité
@@ -14,16 +14,16 @@ class TaskFilter {
   }
 
   /// Retourne une valeur numérique correspondant à chaque priorité
-  static int _getPriorityValue(Priority priority) {
-    switch (priority) {
-      case Priority.basse:
+  static int _getPriorityValue(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'basse':
         return 1; // Priorité basse
-      case Priority.moyenne:
+      case 'moyenne':
         return 2; // Priorité moyenne
-      case Priority.eleve:
+      case 'eleve':
         return 3; // Priorité élevée
       default:
-        return 0; // Valeur par défaut
+        return 1; // Valeur par défaut pour les priorités inconnues
     }
   }
 }
