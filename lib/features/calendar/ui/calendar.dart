@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:listo/core/utils/categorie.dart';
 import 'package:listo/core/utils/task_filter.dart';
 import 'package:listo/partials/Listview.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart'; // Pour parser les dates personnalisées
+
 import 'package:listo/core/utils/task.dart';
 
 class CalendarPage extends StatefulWidget {
   final List<Task> tasks; // Liste des tâches passée en paramètre
-
-  const CalendarPage({super.key, required this.tasks});
+  final List<Categorie> categories;
+  const CalendarPage(
+      {super.key, required this.tasks, required this.categories});
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();
@@ -16,15 +18,15 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   List<Task> filteredTasks = []; // Liste des tâches filtrées
+  List<Categorie> cat = []; // Liste des tâches filtrées
   @override
   void initState() {
     super.initState();
     // Initialiser avec toutes les tâches
     filteredTasks = widget.tasks;
+    cat = widget.categories;
   }
 
-  final DateFormat _dateFormat =
-      DateFormat('dd-MM-yyyy'); // Changez selon le format de vos tâches
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -32,18 +34,18 @@ class _CalendarPageState extends State<CalendarPage> {
   // Récupère les dates ayant des tâches
   Set<DateTime> _taskDates() {
     return widget.tasks.map((task) {
-      final taskDate = _dateFormat
-          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
-      return DateTime(
-          taskDate.year, taskDate.month, taskDate.day); // Normalise la date
+      final taskDate =
+          DateTime.parse(task.dueDate); // Utiliser DateTime.parse pour ISO 8601
+      return DateTime(taskDate.year, taskDate.month,
+          taskDate.day); // Normaliser la date sans l'heure
     }).toSet();
   }
 
   // Récupère les tâches pour une journée donnée
   List<Task> _getTasksForDay(DateTime day) {
     return widget.tasks.where((task) {
-      final taskDate = _dateFormat
-          .parse(task.dueDate.split(" ")[0]); // Parse selon le format
+      final taskDate =
+          DateTime.parse(task.dueDate); // Utiliser DateTime.parse pour ISO 8601
       return taskDate.year == day.year &&
           taskDate.month == day.month &&
           taskDate.day == day.day;
@@ -173,8 +175,8 @@ class _CalendarPageState extends State<CalendarPage> {
           // Affichage des tâches
           _selectedDay != null
               ? _getTasksForDay(_selectedDay!).isNotEmpty
-                  ? Listviews(_getTasksForDay(
-                      _selectedDay!)) // Utiliser Listviews pour afficher les tâches
+                  ? Listviews(_getTasksForDay(_selectedDay!),
+                      cat) // Utiliser Listviews pour afficher les tâches
                   : const Center(child: Text("Aucune tâche pour ce jour"))
               : const Center(child: Text("Veuillez sélectionner une date")),
         ],
