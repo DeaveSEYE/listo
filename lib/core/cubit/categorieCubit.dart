@@ -21,50 +21,54 @@ class CategorieCubit extends Cubit<CatData> {
   final DatabaseHelper _databaseHelper = DatabaseHelper();
   final apiService = ApiService(); // Instancie ApiService
   CategorieCubit() : super(CatData([], isLoading: false)) {
-    _getCategories(); // Charger les tâches lors de l'initialisation
-    _syncLocalCategorieWithApi(); // Start syncing local data to API periodically
+    _getCategories(
+        GlobalState().userId); // Charger les tâches lors de l'initialisation
+    _syncLocalCategorieWithApi(
+        GlobalState().userId); // Start syncing local data to API periodically
   }
 
-  Future<void> _getCategories() async {
-    // Si une opération est déjà en cours, on retourne immédiatement
-    while (_isFetchingCategories) {
-      await Future.delayed(Duration(milliseconds: 100));
-    }
-
-    // Activer le verrou
-    _isFetchingCategories = true;
-
-    try {
-      if (!GlobalState().categorieFirstInitialize) {
-        //   print("DEBUT PROCESS : RECUPERATION DES TACHES DEPUIS L'API");
-
-        await _fetchCategoriesFromApi();
-        // print("FIN PROCESS : RECUPERATION DES TACHES DEPUIS L'API");
-      } else {
-        // print("DEBUT PROCESS : RECUPERATION DES TACHES DEPUIS BASE LOCAL");
-        await _fetchCategoriesFromLocal();
-        // print("FIN PROCESS : RECUPERATION DES TACHES DEPUIS BASE LOCAL");
+  Future<void> _getCategories(String userId) async {
+    if (userId.isNotEmpty) {
+      // Si une opération est déjà en cours, on retourne immédiatement
+      while (_isFetchingCategories) {
+        await Future.delayed(Duration(milliseconds: 100));
       }
-    } catch (e) {
-      print("Erreur lors de l'exécution de _getCategorie : $e");
-    } finally {
-      // Libérer le verrou
-      _isFetchingCategories = false;
+
+      // Activer le verrou
+      _isFetchingCategories = true;
+
+      try {
+        if (!GlobalState().categorieFirstInitialize) {
+          //   print("DEBUT PROCESS : RECUPERATION DES TACHES DEPUIS L'API");
+
+          await _fetchCategoriesFromApi(userId);
+          // print("FIN PROCESS : RECUPERATION DES TACHES DEPUIS L'API");
+        } else {
+          // print("DEBUT PROCESS : RECUPERATION DES TACHES DEPUIS BASE LOCAL");
+          await _fetchCategoriesFromLocal(userId);
+          // print("FIN PROCESS : RECUPERATION DES TACHES DEPUIS BASE LOCAL");
+        }
+      } catch (e) {
+        print("Erreur lors de l'exécution de _getCategorie : $e");
+      } finally {
+        // Libérer le verrou
+        _isFetchingCategories = false;
+      }
     }
   }
 
-  Future<void> _fetchCategoriesFromApi() async {
+  Future<void> _fetchCategoriesFromApi(String userId) async {
     emit(CatData([], isLoading: true)); // Indiquer que le chargement commence
     try {
       // Récupérer les tâches depuis l'API
-      final fetchedCategories = await apiService.fetchCategories();
+      final fetchedCategories = await apiService.fetchCategories(userId);
 // Affichage des données récupérées ou du nombre de données
       print('Nombre de catégories récupérées : ${fetchedCategories.length}');
 
 // Vous pouvez aussi afficher chaque catégorie individuellement si vous voulez plus de détails
-      fetchedCategories.forEach((categorie) {
+      for (var categorie in fetchedCategories) {
         print('Catégorie: ${categorie.toJson()}');
-      });
+      }
 
       // Effacer les anciennes tâches dans la base locale
       await _databaseHelper.clearDatabase("categories");
@@ -82,7 +86,7 @@ class CategorieCubit extends Cubit<CatData> {
       // print('Toutes les tâches ont été sauvegardées dans la base locale.');
 
       // Vérifier les tâches enregistrées localement
-      final localTasks = await _databaseHelper.fetchCategories();
+      final localTasks = await _databaseHelper.fetchCategories(userId);
       print(
           "Nombre de categories récupérées depuis la base locale : ${localTasks.length}");
       for (var task in localTasks) {
@@ -97,13 +101,13 @@ class CategorieCubit extends Cubit<CatData> {
     }
   }
 
-  Future<void> _fetchCategoriesFromLocal() async {
+  Future<void> _fetchCategoriesFromLocal(String userId) async {
     emit(CatData([], isLoading: true));
     // print(
     //     "FIRST INITIALIZE DANS _fetchTasksFromLocal : ${GlobalState().firstInitialize}");
     try {
       // final localTasks = await _databaseHelper.fetchTasks();
-      final localCategories = await _databaseHelper.fetchCategories();
+      final localCategories = await _databaseHelper.fetchCategories(userId);
       // print(localTasks);
       // final tasks = localTasks.map((e) => Task.fromJson(e)).toList();
       final categories =
@@ -120,21 +124,23 @@ class CategorieCubit extends Cubit<CatData> {
 
   Future<void> reload() async {
     emit(CatData([], isLoading: true));
-    await _getCategories();
+    await _getCategories(GlobalState().userId);
     emit(CatData(state.categories, isLoading: false));
   }
 
   // Sync vers l'api toute les 5minutes
-  void _syncLocalCategorieWithApi() {
-    Timer.periodic(Duration(minutes: 1), (timer) async {
-      if (await isInternetAvailable()) {
-        print(
-            "Internet connecté. Tentative de synchronisation des données locales...");
-        GlobalState().categorieApiInitialize = true;
-        await _syncCategorieToApi();
-        GlobalState().categorieApiInitialize = false;
-      }
-    });
+  void _syncLocalCategorieWithApi(userId) {
+    if (userId.isNotEmpty) {
+      Timer.periodic(Duration(minutes: 1), (timer) async {
+        if (await isInternetAvailable()) {
+          print(
+              "Internet connecté. Tentative de synchronisation des données locales...");
+          GlobalState().categorieApiInitialize = true;
+          await _syncCategorieToApi();
+          GlobalState().categorieApiInitialize = false;
+        }
+      });
+    }
   }
 
   Future<void> _syncCategorieToApi() async {
